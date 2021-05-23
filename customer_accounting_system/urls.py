@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.urls import path
 from accounting_system import views
 from django.contrib.auth import views as auth_views
-from django.views.generic.base import RedirectView
 
 
 urlpatterns = [
@@ -26,18 +25,13 @@ urlpatterns = [
     path('tech-support-form/', views.tech_support_form, name='tech_support'),
     path('tech-support/', views.tech_support, name='tech_support'),
     path('success_ts/', views.success_ts, name='success_ts'),
-    path('add-client/', views.add_client, name='add-client'),
     path('add_client_info/', views.add_client_info, name='add_client_info'),
-    path('client_info/', views.client_info, name='client_info'),
-    path('delete-client/', views.delete_client, name='delete-client'),
     path('client-profile/', views.client_profile, name='client-profile'),
     path('ts-profile/', views.ts_profile, name='ts-profile'),
     path('close-ts/', views.close_ts, name='close_ts'),
     path('ts-anal/', views.ts_anal, name='ts_anal'),
     path('filter-clients/', views.filter_clients, name='filter-clients'),
     path('filter-ts/', views.filter_ts, name='filter-ts'),
-    path('change-client-form/', views.change_client_form, name='change-client-form'),
-    path('save-client-changes/', views.change_client, name='save-client-changes'),
     path('change-user-form/', views.change_user_form, name='change-user-form'),
     path('change-user/', views.change_user, name='change-user'),
     path('change-worker-form/', views.change_worker_form, name='change-user-form'),
@@ -45,13 +39,7 @@ urlpatterns = [
     # STAFF
     path('staff/', views.ts, name='staff'),
     path('add-manager/', views.add_manager, name='add-manager'),
-    path('change-manager-form/', views.change_manager_form, name='change-manager-form'),
     path('change-manager/', views.change_manager, name='change-manager'),
-    path('delete-manager/', views.delete_manager, name='delete-manager'),
-    # TASKS
-    path('tasks/', views.tasks, name='tasks'),
-    # CALENDAR
-    path('calendar/', views.calendar, name='calendar'),
     # SERVICE
     path('tel/', views.tel, name='tel'),
     path('tel_sc/', views.tel_sc, name='tel_connect'),
@@ -81,32 +69,5 @@ urlpatterns = [
     path('s_mov_sc/', views.streaming_movies_sc, name='s-mov_connect'),
     path('s_mov_dc/', views.streaming_movies_dc, name='s-mov_connect'),
     path('success_sc/', views.success_sc, name='success_sc'),
-    path('service/', views.service, name='service'),
-    path('delete-service/', views.delete_service, name='delete-service'),
-    path('add-service-for-client-form/', views.add_service_for_client_form, name='add-service-for-client-form'),
-    path('add-service-for-client/', views.add_service_for_client, name='add-service-for-client'),
-    path('delete-service-from-client/', views.delete_service_from_client, name='delete-service-from-client'),
-    path('change-service-for-client-form/', views.change_service_for_client_form,
-         name='change-service-for-client-form'),
-    path('save-service-changes/', views.save_service_changes, name='save-service-changes'),
-    # KKT
-    path('kkt-service/', views.kkt_service, name='kkt-service'),
-    path('add-kkt/', views.add_kkt, name='add-kkt'),
-    path('delete-kkt/', views.delete_kkt, name='delete-kkt'),
-    # FN
-    path('fn-service/', views.fn_service, name='fn-service'),
-    path('add-fn/', views.add_fn, name='add-fn'),
-    path('delete-fn/', views.delete_fn, name='delete-fn'),
-    # TO
-    path('to-service/', views.to_service, name='to-service'),
-    path('add-to/', views.add_to, name='add-to'),
-    path('delete-to/', views.delete_to, name='delete-to'),
-    # ECP
-    path('ecp-service/', views.ecp_service, name='ecp-service'),
-    path('add-ecp/', views.add_ecp, name='add-ecp'),
-    path('delete-ecp/', views.delete_ecp, name='delete-ecp'),
-    # OFD
-    path('ofd-service/', views.ofd_service, name='ofd-service'),
-    path('add-ofd/', views.add_ofd, name='add-ofd'),
-    path('delete-ofd/', views.delete_ofd, name='delete-ofd'),
+    path('service/', views.service, name='service')
 ]
