@@ -9,8 +9,8 @@ from django.contrib.auth.models import Group
 from django.utils import timezone
 
 from .forms import (CustomUserCreationForm, WorkerChangeForm, CustomClientCreationForm, ManagerChangeForm)
-from .models import ServiceInfo, Tsrequest, ClientInfo, Manager
-from .services import (clients_utils, managers_utils)
+from .models import ServiceInfo, Tsrequest, Manager
+from .services import (clients_utils)
 
 
 @login_required
@@ -94,19 +94,6 @@ def reg_client(request: HttpRequest) -> HttpResponse:
     else:
         form = CustomClientCreationForm()
     context: dict = {'page': 'auth', 'form': form, 'user': request.user}
-    return render(request, 'accounting_system/reg.html', context)
-
-
-def add_client_info(request: HttpRequest) -> HttpResponse:
-    """ Контроллер добавления клиента.
-        Дополнительно передает список из ИНН всех активных клиентов,
-        для последующей валидации входных данных фронтендом на дублирование. """
-    if request.method == 'POST':
-        ClientInfo.save_client_info(request.POST)
-        return redirect('clients')
-    managers = Manager.objects.filter(is_active=True)
-    inn_list: list = clients_utils.get_inn_list_from_active_clients()
-    context: dict = {'page': 'clients', 'user': request.user, 'managers': managers, 'inn_list': str(inn_list)}
     return render(request, 'accounting_system/reg.html', context)
 
 
@@ -247,14 +234,6 @@ def close_ts(request: HttpRequest) -> HttpResponse:
 
 
 # STAFF
-
-
-@login_required
-def staff(request: HttpRequest) -> HttpResponse:
-    """ Контроллер со списком пользователей зарегестрированных в системе. """
-    managers = managers_utils.get_managers_queryset().order_by('pk')
-    context: dict = {'page': 'staff', 'managers': managers, 'user': request.user}
-    return render(request, 'accounting_system/managers/staff.html', context)
 
 
 def add_new_client(request: HttpRequest) -> HttpResponse:

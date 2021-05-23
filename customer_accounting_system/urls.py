@@ -25,7 +25,6 @@ urlpatterns = [
     path('tech-support-form/', views.tech_support_form, name='tech_support'),
     path('tech-support/', views.tech_support, name='tech_support'),
     path('success_ts/', views.success_ts, name='success_ts'),
-    path('add_client_info/', views.add_client_info, name='add_client_info'),
     path('client-profile/', views.client_profile, name='client-profile'),
     path('ts-profile/', views.ts_profile, name='ts-profile'),
     path('close-ts/', views.close_ts, name='close_ts'),
