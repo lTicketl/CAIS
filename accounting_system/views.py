@@ -8,8 +8,8 @@ from django.contrib.auth import logout
 from django.contrib.auth.models import Group
 from django.utils import timezone
 
-from .forms import (CustomUserCreationForm, WorkerChangeForm, CustomClientCreationForm, ManagerChangeForm)
-from .models import ServiceInfo, Tsrequest, Manager
+from .forms import (CustomUserCreationForm, WorkerChangeForm, ManagerChangeForm)
+from .models import ServiceInfo, TsRequest, Manager
 from .services import (clients_utils)
 
 
@@ -61,7 +61,7 @@ def tech_support_form(request: HttpRequest) -> HttpResponse:
 def tech_support(request: HttpRequest) -> HttpResponse:
     ts_client = request.POST.get('ts_pk')
     user: Manager = get_object_or_404(Manager, pk=ts_client)
-    ts_request = Tsrequest(ts_client=user, ts_problem=request.POST.get('ts'))
+    ts_request = TsRequest(ts_client=user, ts_problem=request.POST.get('ts'))
     ts_request.save()
     return render(request, 'accounting_system/clients/success_ts.html')
 
@@ -79,22 +79,6 @@ def logout_view(request: HttpRequest) -> HttpResponse:
     """ Контроллер выхода из системы. """
     logout(request)
     return redirect('login')
-
-
-def reg_client(request: HttpRequest) -> HttpResponse:
-    if request.method == 'POST':
-        form: CustomClientCreationForm = CustomClientCreationForm(request.POST)
-        if form.is_valid():
-            new_user = form.save(commit=False)
-            new_user.username = form.cleaned_data['cl_username']
-            new_user.set_password(form.cleaned_data['cl_password'])
-            new_user.save()
-            new_user.groups.add(Group.objects.get(name='Clients'))
-            return redirect('auth')
-    else:
-        form = CustomClientCreationForm()
-    context: dict = {'page': 'auth', 'form': form, 'user': request.user}
-    return render(request, 'accounting_system/reg.html', context)
 
 
 @login_required
@@ -187,7 +171,7 @@ def ts(request: HttpRequest) -> HttpResponse:
 def filter_ts(request: HttpRequest) -> HttpResponse:
     ts_pk: str = request.POST.get('search_input')
     pk = int(ts_pk)
-    ts_queryset = Tsrequest.objects.filter(pk=pk)
+    ts_queryset = TsRequest.objects.filter(pk=pk)
     context: dict = {'page': 'staff', 'user': request.user, 'tss': ts_queryset}
     return render(request, 'accounting_system/managers/staff.html', context)
 
@@ -202,7 +186,7 @@ def ts_anal(request: HttpRequest) -> HttpResponse:
     cts = len(cts_queryset)
     context: dict = {'page': 'staff', 'user': request.user,
                      'tss': ts_queryset, 'ts': ts, 'ots': ots, 'cts': cts}
-    return render(request, 'accounting_system/tasks/ts_anal.html', context)
+    return render(request, 'accounting_system/anal/ts_anal.html', context)
 
 
 @login_required
@@ -217,7 +201,7 @@ def client_profile(request: HttpRequest) -> HttpResponse:
 @login_required
 def ts_profile(request: HttpRequest) -> HttpResponse:
     ts_pk = request.POST.get('ts_pk')
-    ts: Tsrequest = get_object_or_404(Tsrequest, pk=ts_pk)
+    ts: TsRequest = get_object_or_404(TsRequest, pk=ts_pk)
     context: dict = {'page': 'staff', 'user': request.user, 'ts': ts}
     return render(request, 'accounting_system/managers/ts_profile.html', context)
 
@@ -225,7 +209,7 @@ def ts_profile(request: HttpRequest) -> HttpResponse:
 @login_required
 def close_ts(request: HttpRequest) -> HttpResponse:
     ts_pk = request.POST.get('ts_pk')
-    ts: Tsrequest = get_object_or_404(Tsrequest, pk=ts_pk)
+    ts: TsRequest = get_object_or_404(TsRequest, pk=ts_pk)
     ts.ts_active = False
     ts.ts_close_date = timezone.now()
     ts.save()
@@ -234,19 +218,6 @@ def close_ts(request: HttpRequest) -> HttpResponse:
 
 
 # STAFF
-
-
-def add_new_client(request: HttpRequest) -> HttpResponse:
-    """ Контроллер добавления нового клиента в систему. """
-    if request.method == 'POST':
-        form: CustomClientCreationForm = CustomClientCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('logout_view')
-    else:
-        form = CustomClientCreationForm()
-    context: dict = {'page': 'logout_view', 'form': form, 'user': request.user}
-    return render(request, 'accounting_system/reg.html', context)
 
 
 @login_required

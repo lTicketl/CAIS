@@ -1,6 +1,6 @@
 from typing import Any
 from django.http import HttpRequest
-from accounting_system.models import Tsrequest, Manager, ServiceInfo
+from accounting_system.models import TsRequest, Manager, ServiceInfo
 
 
 def get_clients_queryset() -> Any:
@@ -9,17 +9,17 @@ def get_clients_queryset() -> Any:
 
 
 def get_ts_queryset():
-    ts_queryset = Tsrequest.objects.filter()
+    ts_queryset = TsRequest.objects.filter()
     return ts_queryset
 
 
 def get_ots_queryset():
-    ots_queryset = Tsrequest.objects.filter(ts_active=True)
+    ots_queryset = TsRequest.objects.filter(ts_active=True)
     return ots_queryset
 
 
 def get_cts_queryset():
-    cts_queryset = Tsrequest.objects.filter(ts_active=False)
+    cts_queryset = TsRequest.objects.filter(ts_active=False)
     return cts_queryset
 
 

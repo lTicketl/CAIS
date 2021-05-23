@@ -12,7 +12,6 @@ urlpatterns = [
                                           redirect_authenticated_user=True), name="login"),
     path('login/', auth_views.LoginView.as_view(template_name='accounting_system/auth.html',
                                                 redirect_authenticated_user=True), name="login"),
-    path('reg/', views.reg_client, name='registration'),
     path('cl_acc/', views.cl_acc, name='cl_acc'),
     path('auth/', views.auth, name='auth'),
     path('logout/', views.logout_view, name='logout_view'),
