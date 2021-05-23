@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    {% include "accounting_system/links.html" %}
+    <title>Добавление сотрудника</title>
+</head>
+<body>
+
+    {% include "accounting_system/header.html" %}
+
+    <div class="wrap">
+
+        {% include "accounting_system/left_panel.html" %}
+
+        <div class="right-panel-center">
+
+            <form action="/add-manager/" method="post">
+
+                {% csrf_token %}
+
+                <div class="add-manager-form flex-center-column">
+
+                    {{ form }}
+
+                </div>
+
+                <button class="add-manager-button">СОХРАНИТЬ</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

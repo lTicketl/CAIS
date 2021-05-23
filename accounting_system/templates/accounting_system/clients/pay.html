@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    {% include "accounting_system/links.html" %}
+    <title>Пополение счета</title>
+</head>
+<body>
+
+    {% include "accounting_system/header.html" %}
+
+    <div class="wrap">
+
+        <div class="right-panel-center">
+
+            <form class="flex-center-column" action="/pay/" method="post">
+
+                {% csrf_token %}
+
+                <div class="add-client-form flex-center-column">
+
+                    <div class="add-client-form-div">
+
+                        <div class="add-client-label-div">
+
+                                <label for="pay_sum">Сумма пополнения:</label>
+
+                        </div>
+
+                        <input type="number" name="pay" maxlength="100" required id="pay_sum">
+
+                    </div>
+
+                </div>
+
+                <button class="add-manager-button" name="pay_pk" value="{{ user.pk }}">Пополнить</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

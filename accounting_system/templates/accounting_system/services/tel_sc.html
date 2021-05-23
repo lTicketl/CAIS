@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    {% include "accounting_system/links.html" %}
+    <title>Телефонная служба подключена</title>
+</head>
+<body>
+
+    {% include "accounting_system/header.html" %}
+
+    <div class="wrap">
+
+        {% include "accounting_system/left_panel_client.html" %}
+
+        <div class="right-panel-center">
+
+            <form class="flex-center-column">
+
+                <label>Услуга успешно подключена</label>
+
+                <label>Спасибо, что пользуетесь нашим сервисом</label>
+
+                <a href="/cl_acc/" class="add-manager-link">На главную</a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

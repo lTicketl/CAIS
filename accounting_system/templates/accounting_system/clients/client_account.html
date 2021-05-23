@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    {% include "accounting_system/links.html" %}
+    <title>Личный кабинет</title>
+</head>
+<body>
+
+    {% include "accounting_system/header.html" %}
+
+    <div class="wrap">
+
+        {% include "accounting_system/left_panel_client.html" %}
+
+        <div class="right-panel-center">
+
+            <div class="mx-20 mb-5">
+
+                <span class="client-organization-name">{{ user.username }}</span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">{{ user.first_name }} {{ user.last_name }} {{ user.middle_name }}</span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Телефон: {{ user.phone }}&nbsp;&nbsp;&nbsp;
+                                    Почта: {{ user.email }}&nbsp;&nbsp;&nbsp;
+                                    Адрес: {{ user.adr }}&nbsp;&nbsp;&nbsp;
+                </span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Дата рождения: {{ user.dob }}&nbsp;&nbsp;&nbsp;
+                                    Пол: {{ user.gender }}
+                </span>
+
+            </div>
+
+            {% if not user.is_staff %}
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Состояние счета: {{ user.account }}&nbsp;&nbsp;&nbsp;
+                                    Стоимость подписок: {{ user.sub_cost }}
+                </span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Период оплаты: {{ user.billing }}&nbsp;&nbsp;&nbsp;
+                                    Способ оплаты: {{ user.payment_method }}
+                </span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Пенсионер: {{ user.sen_cit }}&nbsp;&nbsp;&nbsp;
+                                    Женат(замужем): {{ user.partner }}&nbsp;&nbsp;&nbsp;
+                                    Дети: {{ user.depends }}&nbsp;&nbsp;&nbsp;
+                </span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Владения: {{ user.tenure }}</span>
+
+            </div>
+
+            <form action="/change-user-form/" method="post">
+
+                {% csrf_token %}
+
+                <button class="add-manager-button" name="user_pk" value="{{ user.pk }}">Изменить личные данные</button>
+
+            </form>
+
+            {% endif %}
+
+            {% if user.is_staff %}
+
+            <form action="/change-worker-form/" method="post">
+
+                {% csrf_token %}
+
+                <button class="add-manager-button" name="worker_pk" value="{{ user.pk }}">Изменить личные данные</button>
+
+            </form>
+
+            {% endif %}
+
+            {% if not user.is_staff %}
+
+                <div class="mx-20 mb-5">
+
+                    <span class="client-organization-name">Подключенные услуги</span>
+
+                </div>
+
+                {% if user.tel == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Телефонная служба</span>
+
+                    </div>
+
+                    <form action="/tel_dc/" method="post">
+
+                        {% csrf_token %}
+
+                        <button class="add-manager-button" name="tel_pk" value="{{ user.pk }}">Отключить услугу</button>
+
+                    </form>
+
+                {% endif %}
+
+                {% if user.ml == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Многоканальная связь</span>
+
+                    </div>
+
+                    <form action="/ml_dc/" method="post">
+
+                        {% csrf_token %}
+
+                        <button class="add-manager-button" name="ml_pk" value="{{ user.pk }}">Отключить услугу</button>
+
+                    </form>
+
+                {% endif %}
+
+                {% if user.internet == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Интернет</span>
+
+                    </div>
+
+                    <form action="/internet_dc/" method="post">
+
+                        {% csrf_token %}
+
+                        <button class="add-manager-button" name="internet_pk" value="{{ user.pk }}">Отключить услугу</button>
+
+                    </form>
+
+                {% endif %}
+
+                {% if user.security == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Онлайн охрана</span>
+
+                    </div>
+
+                    <form action="/security_dc/" method="post">
+
+                        {% csrf_token %}
+
+                        <button class="add-manager-button" name="security_pk" value="{{ user.pk }}">Отключить услугу</button>
+
+                    </form>
+
+                {% endif %}
+
+                {% if user.backup == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Облачный backup</span>
+
+                    </div>
+
+                    <form action="/backup_dc/" method="post">
+
+                        {% csrf_token %}
+
+                        <button class="add-manager-button" name="backup_pk" value="{{ user.pk }}">Отключить услугу</button>
+
+                    </form>
+
+                {% endif %}
+
+                {% if user.protect == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Защита устройств</span>
+
+                    </div>
+
+                    <form action="/protect_dc/" method="post">
+
+                        {% csrf_token %}
+
+                        <button class="add-manager-button" name="protect_pk" value="{{ user.pk }}">Отключить услугу</button>
+
+                    </form>
+
+                {% endif %}
+
+                {% if user.support == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Обслуживание оборудования</span>
+
+                    </div>
+
+                    <form action="/support_dc/" method="post">
+
+                        {% csrf_token %}
+
+                        <button class="add-manager-button" name="support_pk" value="{{ user.pk }}">Отключить услугу</button>
+
+                    </form>
+
+                {% endif %}
+
+                {% if user.s_tv == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Стриминговое ТВ</span>
+
+                    </div>
+
+                    <form action="/s_tv_dc/" method="post">
+
+                        {% csrf_token %}
+
+                        <button class="add-manager-button" name="s_tv_pk" value="{{ user.pk }}">Отключить услугу</button>
+
+                    </form>
+
+                {% endif %}
+
+                {% if user.s_mov == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Онлайн кинотеатры</span>
+
+                    </div>
+
+                    <form action="/s_mov_dc/" method="post">
+
+                        {% csrf_token %}
+
+                        <button class="add-manager-button" name="s_mov_pk" value="{{ user.pk }}">Отключить услугу</button>
+
+                    </form>
+
+                {% endif %}
+
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

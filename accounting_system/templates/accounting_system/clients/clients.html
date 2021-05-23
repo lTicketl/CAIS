@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    {% include "accounting_system/links.html" %}
+    <script src="/static/brython.min.js"></script>
+    <title>Клиенты</title>
+</head>
+<body onload="brython()">
+
+    {% include "accounting_system/header.html" %}
+
+    <div class="wrap">
+
+        {% include "accounting_system/left_panel_client.html" %}
+
+        <div class="right-panel">
+
+            <div class="right-panel-header">
+
+                <form class="w-100" method="POST" action="/filter-clients/">
+
+                    {% csrf_token %}
+
+                    <div class="d-flex-ai-center-jc-end search-container">
+
+                        <div>
+
+                            <input class="search-input" type="number" name="search_input" id="search_input">
+
+                            <ul class="search-machine" id="ul"></ul>
+
+                        </div>
+
+                        <button class="search-client-button">ПОИСК<img class="search-img" src="{% static 'accounting_system/search.png' %}" alt="search-img"></button>
+
+                    </div>
+
+                </form>
+
+                <form method="POST" action="/clients/">
+
+                    {% csrf_token %}
+
+                    <button class="show-all-client-button" name="show_all" value="True">ВСЕ КЛИЕНТЫ</button>
+
+                </form>
+
+            </div>
+
+            {% for client in clients %}
+
+                <div class="client-container">
+
+                    <div class="flex-column">
+
+                        <h3>{{ client.pk }}</h3>
+
+                        <div>
+
+                            <span><span class="client-container-span">Фамилия </span>{{ client.first_name }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <span><span class="client-container-span">Имя: </span>{{ client.last_name }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <span><span class="client-container-span">Имя: </span>{{ client.middle_name }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex">
+
+                        <form class="h-100" action="/client-profile/" method="post">
+
+                            {% csrf_token %}
+
+                            <button class="client-add-service-button" name="client_pk" value="{{ client.pk }}">карточка</button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <input type="hidden" value='{{ data_to_find_matches }}' id="data_to_find_matches">
+
+    <script type="text/python">
+
+        from browser import document
+        from browser.html import LI, SPAN
+
+
+        def get_data_list_to_find_matches(data_to_find_matches) -> list:
+            """ Функция получения списка типа [[название организации, телефон, инн], [...]]. """
+            counter: int = 0
+            list_with_clients_data: list = [] # Список со списками данных клиентов
+            list_client_data: list = [] # Список с данными одного клиента
+            raw_list_with_clients_data: list = data_to_find_matches.split(', ')
+            
+            for client_data in raw_list_with_clients_data:
+                counter += 1
+                list_client_data.append(client_data[1:-1])
+
+                if counter == 3:
+                    list_with_clients_data.append(list_client_data)
+                    list_client_data = []
+                    counter = 0
+            return list_with_clients_data
+
+
+        search_input = document['search_input']
+        ul = document['ul']
+        data_to_find_matches: str = document['data_to_find_matches'].value[1:-1]
+        data_list_to_find_matches: list = get_data_list_to_find_matches(data_to_find_matches)
+
+
+        def set_value_in_input(event) -> None:
+            """ Вносит значение выбранного элемента из выпадающего списка
+                поисковых совпадений, очищает выпадающий список. """
+            value = event.currentTarget.select('.get_value')[0].text
+            search_input.value = value
+            ul.clear()
+
+
+        def get_list_with_matches() -> list:
+            ul.clear()
+            matches_list = []
+            input_text: str = search_input.value.lower()
+
+            for list_client_data in data_list_to_find_matches:
+                organization_name = list_client_data[0].lower()
+                phone_number = list_client_data[1]
+                inn = list_client_data[2]
+
+                if input_text in organization_name or input_text in phone_number or input_text in inn:
+                    matches_list.append(list_client_data)
+            return matches_list[:5]
+
+        
+        def show_matces(event) -> None:
+            """ Функция отображения совпадений из поискового input в виде выпадающего списка. """
+            matches_list = get_list_with_matches()
+
+            for list_client_data in matches_list:
+                organization_name = SPAN(list_client_data[0])
+                organization_name.class_name = 'get_value'
+
+                phone_number = SPAN(list_client_data[1])
+                phone_number.class_name = 'fs-13'
+
+                inn = SPAN(list_client_data[2])
+                inn.class_name = 'fs-13'
+
+                li = LI()
+                li <= organization_name
+                li <= phone_number
+                li <= inn
+                ul <= li.bind('click', set_value_in_input)
+            if search_input.value == '':
+                ul.clear()
+            
+
+        search_input.bind('input', show_matces)
+    
+    </script>
+
+</body>
+
+</html>

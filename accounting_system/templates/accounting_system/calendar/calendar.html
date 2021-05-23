@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    {% include "accounting_system/links.html" %}
+    <link rel="stylesheet" href="/static/eventCalendar.css">
+    <link rel="stylesheet" href="/static/eventCalendar_theme_responsive.css">
+    <title>Календарь задач</title>
+</head>
+<body>
+
+    {% include "accounting_system/header.html" %}
+
+    <div class="wrap">
+
+        {% include "accounting_system/left_panel.html" %}
+
+        <div class="right-panel-calendar">
+
+            <div class="event-calendar" id="eventCalendar"></div>
+
+        </div>
+
+    </div>
+
+    <script src="/static/jquery.eventCalendar.min.js"></script>
+    <script src="/static/moment.js"></script>
+
+    {{ event_list|json_script:"hello-data" }}
+
+    <script type="text/javascript">
+
+        var eventsInline = JSON.parse(document.getElementById('hello-data').textContent);
+    
+        $(function(){
+
+            $('#eventCalendar').eventCalendar({
+
+                jsonData: eventsInline,
+                jsonDateFormat: 'human',
+                showDescription: true,
+                dateFormat: 'D.MM.YYYY',
+                locales: {
+                locale: "ru",
+                monthNames: [ "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+                    "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" ],
+                dayNames: [ 'Воскресенье','Понедельник','Вторник','Среда',
+                    'Четверг','Пятница','Суббота' ],
+                dayNamesShort: [ 'Вос','Пон','Втр','Срд', 'Чтв','Пят','Суб' ],
+                txt_noEvents: "Нет задач за этот период",
+                txt_SpecificEvents_prev: "",
+                txt_SpecificEvents_after: "задачи:",
+                txt_next: "следующий",
+                txt_prev: "предыдущий",
+                txt_NextEvents: "Предстоящие задачи:",
+                txt_GoToEventUrl: "К задаче",
+                moment: {
+                    "months" : [ "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+                                "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" ],
+
+                    "monthsShort" : [ "Янв", "Фев", "Мар", "Апр", "Май", "Июн",
+                                    "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек" ],
+
+                    "weekdays" : [ 'Воскресенье','Понедельник','Вторник','Среда',
+                                'Четверг','Пятница','Суббота' ],
+
+                    "weekdaysShort" : [ 'Вс','Пн','Вт','Ср', 'Чт','Пт','Сб' ],
+
+                    "weekdaysMin" : [ "Вс","Пн","Вт","Ср","Чт","Пт","Сб" ],
+
+                    "longDateFormat" : {
+                        "LT" : "H:mm",
+                        "LTS" : "LT:ss",
+                        "L" : "DD/MM/YYYY",
+                        "LL" : "D [] MMMM [] YYYY",
+                        "LLL" : "D [] MMMM [] YYYY LT",
+                        "LLLL" : "dddd, D [] MMMM [] YYYY LT"
+                    },
+                    "week" : {
+                        "dow" : 1,
+                        "doy" : 4
+                        }
+                    }
+                }
+
+            });
+
+        });
+    
+    </script>
+
+</body>
+
+</html>

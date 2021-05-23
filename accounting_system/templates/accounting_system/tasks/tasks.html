@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    {% include "accounting_system/links.html" %}
+    <title>Задачи</title>
+</head>
+<body>
+
+    {% include "accounting_system/header.html" %}
+
+    <div class="wrap">
+
+        {% include "accounting_system/left_panel_client.html" %}
+
+        <div class="right-panel {% if not user.is_staff %}py-25{% endif %}">
+
+            {% if user.is_staff %}
+
+                <div class="right-panel-header">
+
+                    <form class="flex-center" action="/tasks/" method="POST">
+
+                        {% csrf_token %}
+
+                        <select class="tasks-filter-selectbox" name="manager_pk">
+
+                            {% if not manager_pk_for_filter %}
+
+                                <option value="" selected>Без фильтра</option>
+
+                            {% else %}
+
+                                <option value="">Без фильтра</option>
+
+                            {% endif %}
+
+                            {% for manager in managers %}
+
+                                {% if manager.pk == manager_pk_for_filter %}
+
+                                    <option value="{{ manager.pk }}" selected>{{ manager.get_full_name }}</option>
+
+                                {% else %}
+
+                                    <option value="{{ manager.pk }}">{{ manager.get_full_name }}</option>
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </select>
+
+                        <button class="tasks-filter-button">ОТФИЛЬТРОВАТЬ</button>
+
+                    </form>
+                
+                </div>
+
+            {% endif %}
+
+            {% for service in tasks %}
+
+                <div class="client-container-services {% if service.ecp_status == 'AL' or service.ofd_status == 'AL' or service.fn_status == 'AL' or service.to_status == 'AL' %} alarm {% elif service.ecp_status == 'FA' or service.ofd_status == 'FA' or service.fn_status == 'FA' or service.to_status == 'FA' %} failed {% endif %}">
+
+                    <div class="flex-column">
+
+                        <div>
+
+                            <h2>{{ service.client }}</h2>
+
+                            {% if user.is_staff %}
+
+                                <span class="d-flex-ai-center">менеджер:&nbsp;&nbsp;<h3>{{ service.client.manager }}</h3></span>
+
+                            {% endif %}
+
+                            {% if service.cash_machine %}
+
+                                <div class="d-flex-ai-center">
+
+                                    <h4>{{ service.cash_machine }}</h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    {% if service.factory_number %}
+
+                                        <span>заводской номер: {{ service.factory_number }}</span>
+    
+                                    {% endif %}
+
+                                </div>
+
+                            {% endif %}
+                        
+                            {% if service.ofd %}
+
+                                <div class="d-flex-ai-center">
+
+                                    <h4>{{ service.ofd }}</h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <span>регистрация: {{ service.ofd_add_date }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <span>дней до окончания: {{ service.ofd_days_to_finish }}</span>
+
+                                </div>
+
+                            {% endif %}
+
+                            {% if service.ecp %}
+
+                                <div class="d-flex-ai-center">
+
+                                    <h4>{{ service.ecp }}</h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <span>регистрация: {{ service.ecp_add_date }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <span>дней до окончания: {{ service.ecp_days_to_finish }}</span>
+
+                                </div>
+
+                            {% endif %}
+
+                            {% if service.fn %}
+
+                                <div class="d-flex-ai-center">
+
+                                    <h4>{{ service.fn }}</h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <span>регистрация: {{ service.fn_add_date }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <span>дней до окончания: {{ service.fn_days_to_finish }}</span>
+
+                                </div>
+
+                            {% endif %}
+
+                            {% if service.to %}
+
+                                <div class="d-flex-ai-center">
+
+                                    <h4>{{ service.to }}</h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <span>заключение: {{ service.to_add_date }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <span>дней до окончания: {{ service.to_days_to_finish }}</span>
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex">
+
+                        <form class="h-100" action="/change-service-for-client-form/" method="post">
+
+                            {% csrf_token %}
+
+                            <input type="hidden" name="client_pk" value="{{ service.client.pk }}">
+
+                            <button class="client-add-service-button {% if service.ecp_status == 'AL' or service.ofd_status == 'AL' or service.fn_status == 'AL' or service.to_status == 'AL' %} alarm {% elif service.ecp_status == 'FA' or service.ofd_status == 'FA' or service.fn_status == 'FA' or service.to_status == 'FA' %} failed {% endif %}" name="service_pk" value="{{ service.pk }}">закрыть</button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

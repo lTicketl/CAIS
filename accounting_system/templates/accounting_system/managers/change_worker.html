@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    {% include "accounting_system/links.html" %}
+    <title>Изменение данных</title>
+</head>
+<body>
+
+    {% include "accounting_system/header.html" %}
+
+    <div class="wrap">
+
+        <div class="right-panel-center">
+
+            <form action="/change-worker/" method="post">
+
+                {% csrf_token %}
+
+                <div class="add-manager-form flex-center-column">
+
+                    {{ form }}
+
+                </div>
+
+                <button class="add-manager-button" name="worker_pk_for_change" value="{{ user.pk }}">ИЗМЕНИТЬ</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    {% include "accounting_system/links.html" %}
+    <title>Удаление клиентской услуги</title>
+</head>
+<body>
+
+    {% include "accounting_system/header.html" %}
+
+    <div class="wrap">
+
+        {% include "accounting_system/left_panel.html" %}
+
+        <div class="right-panel-center">
+
+            <form action="/delete-service-from-client/" method="post">
+
+                {% csrf_token %}
+
+                <div class="delete-manager-form flex-center-column">
+
+                    <h1>УДАЛЕНИЕ КЛИЕНТСКОЙ УСЛУГИ</h1>
+
+                    <h2>Выбранная услуга, закрепленная за данным клиентом - будет удалена, вы уверены, что хотите продолжить?</h2>
+
+                    <div class="delete-manager-buttons-container">
+
+                        <a href="/clients/" class="delete-manager-link">НЕТ, ОТМЕНИТЬ</a>
+
+                        <input type="hidden" name="client_pk" value="{{ client_pk }}">
+
+                        <button class="delete-button-delete_manager" name="service_pk_for_delete" value="{{ service_pk }}">ДА, УДАЛИТЬ УСЛУГУ</button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

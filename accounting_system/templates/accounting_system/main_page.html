@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    {% include "accounting_system/links.html" %}
+    <title>ИСУК</title>
+</head>
+<body>
+
+    {% include "accounting_system/header.html" %}
+
+    <div class="wrap">
+
+        {% if not user.is_staff %}
+
+            {% include "accounting_system/left_panel_client.html" %}
+
+        <div class="flex-center-column flex-grow-1">
+
+            <div class="flex-center">
+
+                <form action="/tel/" method="post">
+
+                    {% csrf_token %}
+
+                    <button class="add-manager-button" name="tel_pk" value="{{ 1 }}">Телефонная служба</button>
+
+                </form>
+
+                <form action="/m_lines/" method="post">
+
+                    {% csrf_token %}
+
+                    <button class="add-manager-button" name="ml_pk" value="{{ 2 }}">Многоканальная связь</button>
+
+                </form>
+
+                <form action="/internet/" method="post">
+
+                    {% csrf_token %}
+
+                    <button class="add-manager-button" name="internet_pk" value="{{ 3 }}">Интернет сервис</button>
+
+                </form>
+
+            </div>
+
+            <div class="flex-center">
+
+                <form action="/security/" method="post">
+
+                    {% csrf_token %}
+
+                    <button class="add-manager-button" name="security_pk" value="{{ 4 }}">Онлайн охрана</button>
+
+                </form>
+
+                <form action="/backup/" method="post">
+
+                    {% csrf_token %}
+
+                    <button class="add-manager-button" name="backup_pk" value="{{ 5 }}">Облачный backup</button>
+
+                </form>
+
+                <form action="/protect/" method="post">
+
+                    {% csrf_token %}
+
+                    <button class="add-manager-button" name="protect_pk" value="{{ 6 }}">Защита устройств</button>
+
+                </form>
+
+            </div>
+
+            <div class="flex-center">
+
+                <form action="/support/" method="post">
+
+                    {% csrf_token %}
+
+                    <button class="add-manager-button" name="support_pk" value="{{ 7 }}">Обслуживание оборудования</button>
+
+                </form>
+
+                <form action="/s_tv/" method="post">
+
+                    {% csrf_token %}
+
+                    <button class="add-manager-button" name="s_tv_pk" value="{{ 8 }}">Стриминговое ТВ</button>
+
+                </form>
+
+                <form action="/s_mov/" method="post">
+
+                    {% csrf_token %}
+
+                    <button class="add-manager-button" name="sm_pk" value="{{ 9 }}">Онлайн кинотеатры</button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

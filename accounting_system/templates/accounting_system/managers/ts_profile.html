@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    {% include "accounting_system/links.html" %}
+    <title>Клиенты</title>
+</head>
+<body>
+
+    {% include "accounting_system/header.html" %}
+
+    <div class="wrap">
+
+        {% include "accounting_system/left_panel_client.html" %}
+
+        <div class="right-panel">
+
+            {% if ts.ts_active == True %}
+
+            <form class="w-100" method="POST" action="/close-ts/">
+
+                {% csrf_token %}
+
+                <div class="d-flex-ai-center-jc-end search-container">
+
+                    <button class="search-client-button" name="ts_pk" value="{{ ts.pk }}">Закрыть заявку</button>
+
+                </div>
+
+            </form>
+
+            {% endif %}
+
+            <div class="mx-20 mb-5">
+
+                <span class="client-organization-name">ID клиента: {{ ts.ts_client_id }}</span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Проблема: {{ ts.ts_problem }}</span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Дата открытия: {{ ts.ts_open_date }}</span>
+
+            </div>
+
+            {% if ts.ts_close_date != None %}
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Дата закрытия: {{ ts.ts_close_date }}&nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

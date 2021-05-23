@@ -1,0 +1,47 @@
+{% load static %}
+
+<div class="header">
+
+    <div class="header-logo">
+
+        <form action="/cl_acc/" method="POST">
+
+            {% csrf_token %}
+
+            <button class="header-button">ИСУК</button>
+
+        </form>
+
+{#        <img class="header-img" src="{% static 'accounting_system/auth_logo1.png' %}" alt="logo">#}
+
+    </div>
+
+    <div>
+
+
+
+    </div>
+
+    <div class="header-filters">
+
+    </div>
+
+    <div class="manager-name-div flex-center">
+
+        <span>{{ user.get_full_name }}</span>
+
+    </div>
+
+    <div class="flex-center">
+
+        <form action="/logout/" method="POST">
+
+            {% csrf_token %}
+
+            <button class="header-button">Выход</button>
+
+        </form>
+
+    </div>
+
+</div>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    {% include "accounting_system/links.html" %}
+    <title>Клиенты</title>
+</head>
+<body>
+
+    {% include "accounting_system/header.html" %}
+
+    <div class="wrap">
+
+        {% include "accounting_system/left_panel_client.html" %}
+
+        <div class="right-panel">
+
+            <div class="mx-20 mb-5">
+
+                <span class="client-organization-name">{{ client.username }}</span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">{{ client.first_name }} {{ client.last_name }} {{ client.middle_name }}</span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Телефон: {{ client.phone }}&nbsp;&nbsp;&nbsp;
+                                    Почта: {{ client.email }}&nbsp;&nbsp;&nbsp;
+                                    Адрес: {{ client.adr }}&nbsp;&nbsp;&nbsp;
+                </span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Дата рождения: {{ client.dob }}&nbsp;&nbsp;&nbsp;
+                                    Пол: {{ client.gender }}
+                </span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Состояние счета: {{ client.account }}&nbsp;&nbsp;&nbsp;
+                                    Стоимость подписок: {{ client.sub_cost }}
+                </span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Период оплаты: {{ client.billing }}&nbsp;&nbsp;&nbsp;
+                                    Способ оплаты: {{ client.payment_method }}
+                </span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Пенсионер: {{ client.sen_cit }}&nbsp;&nbsp;&nbsp;
+                                    Женат(замужем): {{ client.partner }}&nbsp;&nbsp;&nbsp;
+                                    Дети: {{ client.depends }}&nbsp;&nbsp;&nbsp;
+                </span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Владения: {{ client.tenure }}</span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="client-organization-name">Подключенные услуги:</span>
+
+            </div>
+
+                {% if client.tel == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Телефонная служба</span>
+
+                    </div>
+
+                {% endif %}
+
+                {% if client.ml == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Многоканальная связь</span>
+
+                    </div>
+
+                {% endif %}
+
+                {% if client.internet == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Интернет</span>
+
+                    </div>
+
+                {% endif %}
+
+                {% if client.security == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Онлайн охрана</span>
+
+                    </div>
+
+                {% endif %}
+
+                {% if client.backup == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Облачный backup</span>
+
+                    </div>
+
+                {% endif %}
+
+                {% if client.protect == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Защита устройств</span>
+
+                    </div>
+
+                {% endif %}
+
+                {% if client.support == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Обслуживание оборудования</span>
+
+                    </div>
+
+                {% endif %}
+
+                {% if client.s_tv == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Стриминговое ТВ</span>
+
+                    </div>
+
+                {% endif %}
+
+                {% if client.s_mov == 1 %}
+
+                    <div class="mx-20 mb-5">
+
+                        <span class="fs-18">Онлайн кинотеатры</span>
+
+                    </div>
+
+                {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

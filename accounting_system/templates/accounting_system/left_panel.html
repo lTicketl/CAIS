@@ -1,0 +1,29 @@
+{% load static %}
+
+<div class="left-panel">
+
+    <div class="panel-div-img">
+
+    </div>
+
+    <a class="{% if page == 'cl_acc' %} left-panel-select-link {% else %} left-panel-link {% endif %}" href="/cl_acc/"><img class="link-img" src="{% static 'accounting_system/client.png' %}" alt="logo">Аккаунт</a>
+
+    {% if user.is_staff %}
+
+    <a class="{% if page == 'clients' %} left-panel-select-link {% else %} left-panel-link {% endif %}" href="/clients/"><img class="link-img" src="{% static 'accounting_system/client.png' %}" alt="logo">Клиенты</a>
+
+    <a class="{% if page == 'staff' %} left-panel-select-link {% else %} left-panel-link {% endif %}" href="/staff/"><img class="link-img" src="{% static 'accounting_system/ts.png' %}" alt="logo">Заявки</a>
+
+    <a class="{% if page == 'tasks' %} left-panel-select-link {% else %} left-panel-link {% endif %}" href="/tasks/"><img class="link-img" src="{% static 'accounting_system/tasks.png' %}" alt="logo">Лог</a>
+
+    <a class="{% if page == 'service' %} left-panel-select-link {% else %} left-panel-link {% endif %}" href="/service/"><img class="link-img" src="{% static 'accounting_system/analit.jpg' %}" alt="logo">Аналитика</a>
+
+    {% endif %}
+
+</div>
+
+<script>
+
+    
+
+</script>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    {% include "accounting_system/links.html" %}
+    <title>Редактирование клиента</title>
+</head>
+<body>
+
+    {% include "accounting_system/header.html" %}
+
+    <div class="wrap">
+
+        {% include "accounting_system/left_panel.html" %}
+
+        <div class="right-panel-center">
+
+            <form class="flex-center-column" action="/save-client-changes/" method="post">
+
+                {% csrf_token %}
+
+                <div class="add-client-form flex-center-column">
+
+                    <div class="add-client-form-div">
+
+                        <div class="add-client-label-div">
+
+                            <label for="id_organization_name">Название организации:</label>
+
+                        </div>
+
+                        <input type="text" name="organization_name" maxlength="100" required value="{{ client.organization_name }}" id="id_organization_name">
+
+                    </div>
+
+                    <div class="add-client-form-div">
+
+                        <div class="add-client-label-div">
+
+                            <label for="id_first_name">Имя:</label>
+
+                        </div>
+
+                        <input type="text" name="first_name" maxlength="100" value="{{ client.first_name }}" id="id_first_name">
+
+                    </div>
+
+                    <div class="add-client-form-div">
+
+                        <div class="add-client-label-div">
+
+                            <label for="id_last_name">Фамилия:</label>
+
+                        </div>
+
+                        <input type="text" name="last_name" maxlength="100" value="{{ client.last_name }}" id="id_last_name">
+
+                    </div>
+
+                    <div class="add-client-form-div">
+
+                        <div class="add-client-label-div">
+
+                            <label for="id_patronymic">Отчество:</label>
+
+                        </div>
+
+                        <input type="text" name="patronymic" maxlength="100" value="{{ client.patronymic }}" id="id_patronymic">
+
+                    </div>
+
+                    <div class="add-client-form-div">
+
+                        <div class="add-client-label-div">
+
+                            <label for="id_phone_number">Телефон:</label>
+
+                        </div>
+
+                        <input type="text" name="phone_number" maxlength="100" required value="{{ client.phone_number }}" id="id_phone_number">
+
+                    </div>
+
+                    <div class="add-client-form-div">
+
+                        <div class="add-client-label-div">
+
+                            <label for="id_email">Email:</label>
+
+                        </div>
+
+                        <input type="text" name="email" maxlength="100" value="{{ client.email }}" id="id_email">
+
+                    </div>
+
+                    <div class="add-client-form-div">
+
+                        <div class="add-client-label-div">
+
+                            <label for="id_inn">ИНН:</label>
+
+                        </div>
+
+                        <input type="number" name="inn" required value="{{ client.inn }}" id="id_inn">
+
+                    </div>
+
+                    <div class="add-client-form-div">
+
+                        <div class="add-client-label-div">
+
+                            <label for="id_comment">Комментарий:</label>
+
+                        </div>
+
+                        <textarea name="comment" rows="5" id="id_comment">{{ client.comment }}</textarea>
+
+                    </div>
+
+                    <div class="add-client-form-div">
+
+                        <div class="add-client-label-div">
+
+                            <label for="id_manager">Менеджер:</label>
+
+                        </div>
+
+                        <select name="manager_pk" required id="id_manager">
+
+                            {% if user.is_staff %}
+
+                                {% for manager in managers %}
+
+                                    {% if manager.pk == client.manager.pk %}
+
+                                        <option value="{{ manager.pk }}" selected>{{ manager.get_full_name }}</option>
+
+                                    {% else %}
+
+                                        <option value="{{ manager.pk }}">{{ manager.get_full_name }}</option>
+
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            {% else %}
+
+                                <option value="{{ user.pk }}" selected>{{ user.get_full_name }}</option>
+
+                            {% endif %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <button class="add-manager-button" name="client_pk" value="{{ client.pk }}">СОХРАНИТЬ</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    {% include "accounting_system/links.html" %}
+    <title>Техподдержка</title>
+</head>
+<body>
+
+    {% include "accounting_system/header.html" %}
+
+    <div class="wrap">
+
+        <div class="right-panel-center">
+
+            <form class="flex-center-column" action="/tech-support/" method="post">
+
+                {% csrf_token %}
+
+                <div class="add-client-form flex-center-column">
+
+                    <div class="add-client-form-div">
+
+                        <div class="add-client-label-div">
+
+                                <label for="ts">Комментарий:</label>
+
+                        </div>
+
+                        <textarea name="ts" rows="10" id="ts"></textarea>
+
+                    </div>
+
+                </div>
+
+                <button class="add-manager-button" name="ts_pk" value="{{ user.pk }}">Отправить</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
