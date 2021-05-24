@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    {% include "accounting_system/links.html" %}
+    <title>Клиенты</title>
+</head>
+<body>
+
+    {% include "accounting_system/header.html" %}
+
+    <div class="wrap">
+
+        {% include "accounting_system/left_panel_client.html" %}
+
+        <div class="right-panel">
+
+            <div class="mx-20 mb-5">
+
+                <span class="client-organization-name">Всего клиентов: {{ cl }}</span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Всего на счетах: {{ cl_sum }}</span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Максимальная прибыль за месяц: {{ max_pro }}</span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="fs-18">Реальная прибыль за месяц: {{ real_pro }}</span>
+
+            </div>
+
+            <div class="mx-20 mb-5">
+
+                <span class="client-organization-name">Всего услуг: {{ ci }}</span>
+
+            </div>
+
+            {% for service in services %}
+
+                <div class="client-container">
+
+                    <div class="flex-column">
+
+                        <h3>{{ service.pk }}</h3>
+
+                        <div>
+
+                            <span><span class="client-container-span">Название: </span>{{ service.service_name }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <span><span class="client-container-span">Стоимость: </span>{{ service.service_cost }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+            <div class="mx-20 mb-5">
+
+                <span class="client-organization-name">Всего сотрудников: {{ w }}</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

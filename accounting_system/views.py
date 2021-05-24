@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import logout
-from django.contrib.auth.models import Group
+from django.db.models import Sum
 from django.utils import timezone
 
 from .forms import (CustomUserCreationForm, WorkerChangeForm, ManagerChangeForm)
@@ -629,3 +629,29 @@ def service(request: HttpRequest) -> HttpResponse:
     """ Контроллер страницы с аналитикой. """
     context: dict = {'page': 'service', 'user': request.user}
     return render(request, 'accounting_system/services/service.html', context)
+
+
+@login_required
+def gen_anal(request: HttpRequest) -> HttpResponse:
+    cl_queryset = clients_utils.get_clients_queryset()
+    service_queryset = clients_utils.get_service_info_queryset()
+    workers_queryset = clients_utils.get_workers_queryset()
+    sc_sum = ServiceInfo.objects.aggregate(Sum('service_cost'))
+    suc_sum = Manager.objects.aggregate(Sum('sub_cost'))
+    sub_sum = suc_sum['sub_cost__sum']
+    service_sum = sc_sum['service_cost__sum']
+    cl_sum = Manager.objects.aggregate(Sum('account'))
+    client_sum = cl_sum['account__sum']
+    cl = len(cl_queryset)
+    ci = len(service_queryset)
+    w = len(workers_queryset)
+    max_profit = service_sum * cl
+    context: dict = {'page': 'staff', 'user': request.user, 'tss': cl_queryset, 'cl': cl, 'ci': ci,
+                     'services': service_queryset, 'w': w, 'cl_sum': client_sum, 'sc_sum': service_sum,
+                     'max_pro': max_profit, 'real_pro': sub_sum}
+    return render(request, 'accounting_system/anal/gen_anal.html', context)
+
+
+@login_required
+def churn_anal(request: HttpRequest) -> HttpResponse:
+    return render(request, 'accounting_system/anal/churn_anal.html')

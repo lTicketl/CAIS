@@ -67,5 +67,7 @@ urlpatterns = [
     path('s_mov_sc/', views.streaming_movies_sc, name='s-mov_connect'),
     path('s_mov_dc/', views.streaming_movies_dc, name='s-mov_connect'),
     path('success_sc/', views.success_sc, name='success_sc'),
-    path('service/', views.service, name='service')
+    path('service/', views.service, name='service'),
+    path('gen-anal/', views.gen_anal, name='gen_anal'),
+    path('churn-anal/', views.churn_anal, name='churn_anal')
 ]

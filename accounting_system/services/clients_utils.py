@@ -3,9 +3,14 @@ from django.http import HttpRequest
 from accounting_system.models import TsRequest, Manager, ServiceInfo
 
 
-def get_clients_queryset() -> Any:
+def get_clients_queryset():
     clients_queryset = Manager.objects.filter(is_staff=False)
     return clients_queryset
+
+
+def get_workers_queryset():
+    workers_queryset = Manager.objects.filter(is_staff=True)
+    return workers_queryset
 
 
 def get_ts_queryset():
