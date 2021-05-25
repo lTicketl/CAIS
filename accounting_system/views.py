@@ -193,6 +193,7 @@ def ts_anal(request: HttpRequest) -> HttpResponse:
 def client_profile(request: HttpRequest) -> HttpResponse:
     """ Контроллер профиля клиента. Отображает список услуг присвоенных клиенту. """
     client_pk = request.POST.get('client_pk')
+    client_ch = clients_utils.get_predict_dataframe(client_pk)
     client: Manager = get_object_or_404(Manager, pk=client_pk)
     context: dict = {'page': 'clients', 'user': request.user, 'client': client}
     return render(request, 'accounting_system/clients/client_profile.html', context)

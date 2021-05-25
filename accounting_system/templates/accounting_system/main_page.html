@@ -27,6 +27,8 @@
 
                 </form>
 
+                {% if user.tel %}
+
                 <form action="/m_lines/" method="post">
 
                     {% csrf_token %}
@@ -34,6 +36,8 @@
                     <button class="add-manager-button" name="ml_pk" value="{{ 2 }}">Многоканальная связь</button>
 
                 </form>
+
+                {% endif %}
 
                 <form action="/internet/" method="post">
 
@@ -44,6 +48,8 @@
                 </form>
 
             </div>
+
+            {% if user.internet %}
 
             <div class="flex-center">
 
@@ -100,6 +106,8 @@
                 </form>
 
             </div>
+
+            {%  endif %}
 
         </div>
 
